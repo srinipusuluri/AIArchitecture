@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Architecture Knowledge Hub</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    display: flex;
+    height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    padding: 0 30px;
+    z-index: 1000;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo-icon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.logo-text {
+    font-size: 20px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.sidebar {
+    width: 320px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    color: #1f2937;
+    overflow-y: auto;
+    padding: 80px 0 30px 0;
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar h2 {
+    text-align: center;
+    font-size: 18px;
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    margin: 0;
+    color: #374151;
+    font-weight: 600;
+}
+
+.tab {
+    padding: 14px 24px;
+    cursor: pointer;
+    border-left: 4px solid transparent;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 500;
+}
+
+.tab:hover {
+    background: rgba(102, 126, 234, 0.1);
+    border-left: 4px solid #667eea;
+}
+
+.tab.active {
+    background: rgba(102, 126, 234, 0.15);
+    border-left: 4px solid #667eea;
+    color: #667eea;
+}
+
+.tab-icon {
+    width: 20px;
+    height: 20px;
+    background: #e5e7eb;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+.content {
+    flex: 1;
+    padding: 80px 40px 40px 40px;
+    overflow-y: auto;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    margin: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.content h1 {
+    margin-top: 0;
+    font-size: 32px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.content h1::before {
+    content: "🤖";
+    font-size: 36px;
+}
+
+.section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #f8fafc;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.section h3 {
+    margin-top: 0;
+    color: #1f2937;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section h3::before {
+    content: "•";
+    color: #667eea;
+    font-size: 24px;
+}
+
+ul {
+    padding-left: 20px;
+    margin: 10px 0;
+}
+
+li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #764ba2;
+    text-decoration: underline;
+}
+
+.resource-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.resource-card {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.resource-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.resource-title {
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 5px;
+}
+
+.resource-desc {
+    font-size: 12px;
+    color: #6b7280;
+    margin-bottom: 10px;
+}
+
+.footer {
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 40px;
+    text-align: center;
+    padding: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.stats-bar {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 24px;
+    font-weight: bold;
+    color: #667eea;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <div class="logo">
+        <div class="logo-icon">AI</div>
+        <div class="logo-text">AI Architecture Knowledge Hub</div>
+    </div>
+</div>
+
+<div class="sidebar">
+    <h2>Architecture Topics</h2>
+    <div id="tabs"></div>
+</div>
+
+<div class="content" id="content"></div>
+
+<script>
+const topics = {
+
+"AI Strategy": {
+description: `
+AI Strategy defines how AI creates business value and aligns with enterprise goals.
+It includes prioritization, operating model design, funding strategy, and measurable ROI targets.
+A comprehensive AI strategy ensures sustainable competitive advantage through technology adoption.
+`,
+details: [
+"Business-aligned use case portfolio with prioritization frameworks",
+"AI investment roadmap with phased implementation approach",
+"Operating model (CoE vs federated) with governance structures",
+"KPIs and value realization framework with ROI measurement",
+"Change management and organizational readiness assessment",
+"Technology stack selection and vendor evaluation criteria",
+"Risk assessment and compliance requirements mapping",
+"Skills gap analysis and talent acquisition strategy"
+],
+resources: [
+["BCG AI Strategy Guide","https://www.bcg.com/publications/ai"],
+["McKinsey AI Reports","https://www.mckinsey.com/capabilities/quantumblack"],
+["MIT Sloan AI Strategy","https://mitsloan.mit.edu/ideas-made-to-matter/topic/artificial-intelligence"],
+["Harvard Business Review AI Strategy","https://hbr.org/topic/artificial-intelligence"],
+["Gartner AI Strategy Framework","https://www.gartner.com/en/information-technology/insights/artificial-intelligence"],
+["Deloitte AI Strategy Toolkit","https://www2.deloitte.com/global/en/pages/deloitte-analytics/topics/ai-strategy.html"]
+]
+},
+
+"AI Capability Map": {
+description: "Structured mapping of enterprise AI capabilities across domains and maturity levels. This comprehensive framework helps organizations assess their AI maturity, identify capability gaps, and plan strategic investments across different AI domains.",
+details: [
+"NLP, CV, Forecasting, Optimization with domain-specific models",
+"Generative AI capabilities including text, image, and code generation",
+"Decision intelligence with automated reasoning and optimization",
+"Capability maturity assessment using standardized frameworks",
+"Cross-functional AI integration patterns",
+"Data science and ML engineering capabilities",
+"Business process automation and orchestration",
+"Real-time analytics and streaming AI workloads",
+"Edge AI and IoT integration capabilities",
+"AI-powered customer experience and personalization"
+],
+resources: [
+["Gartner AI Capability Framework","https://www.gartner.com/en/information-technology"],
+["Deloitte AI Framework","https://www2.deloitte.com"],
+["IBM AI Maturity Model","https://www.ibm.com/ai-maturity-model"],
+["Microsoft AI Business School","https://www.microsoft.com/ai/business-school"],
+["Google AI Principles","https://ai.google/principles/"],
+["AWS AI Capability Assessment","https://aws.amazon.com/machine-learning/ai-capability-assessment/"]
+]
+},
+
+"AI Reference Architecture": {
+description: "High-level blueprint of AI system components and integration patterns. This architectural foundation provides standardized patterns for building scalable, maintainable AI systems that can adapt to evolving business requirements and technological advancements.",
+details: [
+"Data ingestion layer with real-time and batch processing capabilities",
+"Model training pipelines with automated hyperparameter tuning",
+"Inference layer supporting both online and offline serving",
+"Monitoring & governance layer with comprehensive observability",
+"Data lake and warehouse integration patterns",
+"Feature engineering and management systems",
+"Model versioning and lineage tracking",
+"Security and compliance enforcement mechanisms",
+"Scalable compute orchestration and resource management",
+"API gateway and service mesh integration",
+"Event-driven architecture for real-time AI workflows",
+"Multi-cloud and hybrid deployment strategies"
+],
+resources: [
+["Azure AI Architecture","https://learn.microsoft.com/en-us/azure/architecture/ai-ml/"],
+["AWS ML Architecture","https://aws.amazon.com/architecture/machine-learning/"],
+["Google Cloud AI Architecture","https://cloud.google.com/architecture"],
+["IBM AI Reference Architecture","https://www.ibm.com/cloud/architecture/architectures/ai"],
+["NVIDIA AI Infrastructure","https://www.nvidia.com/en-us/data-center/deep-learning-ai/"],
+["Red Hat AI Architecture","https://www.redhat.com/en/topics/artificial-intelligence"]
+]
+},
+
+"AI Platform Architecture": {
+description: "Technical foundation enabling scalable AI development and deployment. This platform provides the infrastructure, tools, and services necessary to support the entire AI/ML lifecycle from experimentation to production, ensuring high availability, performance, and cost optimization.",
+details: [
+"Compute (GPU/TPU) with auto-scaling and workload scheduling",
+"Feature stores for centralized feature management and serving",
+"Model registry with versioning, lineage, and metadata management",
+"CI/CD for ML with automated testing and deployment pipelines",
+"Data pipeline orchestration and workflow management",
+"Experiment tracking and model comparison tools",
+"Monitoring and observability for ML systems",
+"Security and access control for ML assets",
+"Cost optimization and resource utilization tracking",
+"Multi-tenant architecture with isolation and quotas",
+"Integration with existing enterprise systems",
+"Developer experience with SDKs and APIs"
+],
+resources: [
+["MLOps.org","https://ml-ops.org/"],
+["Kubeflow","https://www.kubeflow.org/"],
+["MLflow","https://mlflow.org/"],
+["TensorFlow Extended (TFX)","https://www.tensorflow.org/tfx"],
+["PyTorch Lightning","https://pytorch-lightning.readthedocs.io/"],
+["Databricks MLflow","https://www.databricks.com/product/managed-mlflow"]
+]
+},
+
+"LLM Model Catalog": {
+description: "Governed inventory of approved LLMs and their characteristics. This comprehensive catalog serves as the central repository for evaluating, selecting, and managing large language models across the organization, ensuring consistency, security, and optimal performance for different use cases.",
+details: [
+"Model capabilities including context length, token limits, and supported features",
+"Security & compliance with data privacy, model licensing, and regulatory requirements",
+"Cost profiles with pricing models, compute requirements, and operational expenses",
+"Approved use cases mapped to specific business scenarios and domains",
+"Performance benchmarks and evaluation metrics",
+"Fine-tuning capabilities and customization options",
+"Integration patterns with existing systems and APIs",
+"Vendor lock-in analysis and migration strategies",
+"Model update and version management processes",
+"Multi-modal capabilities for text, image, and audio processing",
+"Specialized domain models for healthcare, finance, legal, and other industries",
+"Open source vs proprietary model comparison and selection criteria"
+],
+resources: [
+["OpenAI Docs","https://platform.openai.com/docs"],
+["Hugging Face Models","https://huggingface.co/models"],
+["Anthropic Claude","https://docs.anthropic.com/en/docs/claude"],
+["Google Gemini","https://ai.google.dev/gemini-api/docs"],
+["Cohere Models","https://docs.cohere.com/docs/models"],
+["AWS Bedrock","https://docs.aws.amazon.com/bedrock/"]
+]
+},
+
+"MLOps & LLMOps": {
+description: "Operationalizing ML and LLM systems reliably at scale. This discipline combines traditional MLOps practices with specialized techniques for managing large language models, ensuring consistent performance, reliability, and cost-effectiveness in production environments.",
+details: [
+"Pipeline automation with reproducible training and deployment workflows",
+"Prompt versioning and management for LLM-based applications",
+"Evaluation frameworks with automated testing and quality gates",
+"Cost & usage monitoring with budgeting and optimization strategies",
+"Model drift detection and automated retraining triggers",
+"A/B testing and canary deployment for ML models",
+"Infrastructure as Code for ML environments",
+"Data versioning and lineage tracking",
+"Security scanning and vulnerability management for ML components",
+"Performance monitoring and alerting for inference services",
+"Multi-environment management (dev, staging, production)",
+"Collaboration tools for data scientists and ML engineers"
+],
+resources: [
+["MLflow","https://mlflow.org/"],
+["Weights & Biases","https://wandb.ai/"],
+["Neptune.ai","https://neptune.ai/"],
+["Comet ML","https://www.comet.com/"],
+["ClearML","https://clear.ml/"],
+["Valohai","https://valohai.com/"]
+]
+},
+
+"AI Governance Framework": {
+description: "Policies, controls, and oversight mechanisms for AI lifecycle management. This comprehensive framework ensures that AI systems are developed, deployed, and operated in accordance with organizational policies, regulatory requirements, and ethical standards.",
+details: [
+"Model approval workflows with multi-stage review processes",
+"Risk classification using standardized frameworks and scoring systems",
+"Audit trails with complete lineage and change tracking",
+"Governance committees with cross-functional representation",
+"Compliance monitoring and regulatory reporting",
+"Data governance with quality standards and lineage tracking",
+"Model performance monitoring and SLA management",
+"Change management processes for model updates and deployments",
+"Stakeholder engagement and communication strategies",
+"Third-party vendor management and assessment",
+"Intellectual property and licensing compliance",
+"Business continuity and disaster recovery planning"
+],
+resources: [
+["OECD AI Policy Observatory","https://oecd.ai/"],
+["NIST AI Risk Framework","https://www.nist.gov/itl/ai-risk-management-framework"],
+["ISO/IEC 42001 AI Management","https://www.iso.org/standard/79357.html"],
+["EU AI Act","https://digital-strategy.ec.europa.eu/en/policies/european-approach-artificial-intelligence"],
+["World Economic Forum AI Governance","https://www.weforum.org/projects/artificial-intelligence-governance"],
+["IEEE AI Ethics","https://standards.ieee.org/industry-connections/ec/autonomous-systems/"]
+]
+},
+
+"Responsible AI": {
+description: "Ensures fairness, transparency, explainability, and ethical AI use. This comprehensive approach to AI development and deployment focuses on creating systems that are trustworthy, accountable, and aligned with human values and societal norms.",
+details: [
+"Bias detection with statistical analysis and fairness metrics",
+"Explainability tools including feature importance and decision trees",
+"Human-in-the-loop systems for oversight and intervention",
+"Ethical guidelines aligned with organizational and regulatory standards",
+"Privacy preservation techniques and data anonymization",
+"Accountability frameworks with clear responsibility assignment",
+"Transparency reporting and model documentation",
+"Stakeholder impact assessment and feedback mechanisms",
+"Continuous monitoring for drift and fairness degradation",
+"Ethical review boards and governance structures",
+"User consent and data usage transparency",
+"Algorithmic auditing and third-party validation"
+],
+resources: [
+["Google Responsible AI","https://ai.google/responsibilities/responsible-ai-practices/"],
+["Microsoft Responsible AI","https://www.microsoft.com/ai/responsible-ai"],
+["IBM AI Fairness 360","https://aif360.mybluemix.net/"],
+["FAT* Conference","https://fatconference.org/"],
+["Partnership on AI","https://www.partnershiponai.org/"],
+["AI Now Institute","https://ainowinstitute.org/"]
+]
+},
+
+"AI Security": {
+description: "Securing models, data, and AI infrastructure against threats. This comprehensive security approach protects AI systems from malicious attacks, data breaches, and unauthorized access while ensuring the integrity and confidentiality of AI assets throughout their lifecycle.",
+details: [
+"Prompt injection defense with input validation and output filtering",
+"Adversarial attack mitigation including robust training and detection",
+"API security with authentication, authorization, and rate limiting",
+"Access control with role-based permissions and least privilege principles",
+"Model watermarking and intellectual property protection",
+"Data encryption at rest and in transit for sensitive information",
+"Secure model serving with container security and runtime protection",
+"Supply chain security for third-party dependencies and components",
+"Security monitoring and threat detection for AI workloads",
+"Vulnerability scanning and penetration testing for ML systems",
+"Secure development practices for AI code and infrastructure",
+"Compliance with security standards and regulatory requirements"
+],
+resources: [
+["OWASP ML Security","https://owasp.org/www-project-machine-learning-security-top-10/"],
+["NIST AI Security Framework","https://www.nist.gov/publications/nist-artificial-intelligence-risk-management-framework"],
+["MITRE ATLAS","https://atlas.mitre.org/"],
+["Google AI Security","https://ai.google/responsibilities/ai-principles/"],
+["Microsoft Security for AI","https://www.microsoft.com/security/business/artificial-intelligence"],
+["Cloud Security Alliance AI Security","https://cloudsecurityalliance.org/research/ai-security/"]
+]
+},
+
+"Vector Databases": {
+description: "Databases optimized for embedding storage and semantic search. These specialized databases enable efficient storage, indexing, and retrieval of high-dimensional vector embeddings, forming the backbone of modern AI applications that require semantic understanding and similarity-based querying.",
+details: [
+"Similarity search with various distance metrics (cosine, Euclidean, dot product)",
+"Indexing strategies including HNSW, IVF, and product quantization",
+"Hybrid search combining vector similarity with traditional filtering",
+"Scalability with horizontal scaling and distributed architectures",
+"Real-time ingestion and upsert capabilities for streaming data",
+"Multi-tenancy support with isolation and resource management",
+"Query optimization and caching for low-latency responses",
+"Integration with ML frameworks and embedding generation pipelines",
+"Backup and disaster recovery for vector data",
+"Monitoring and observability for vector operations",
+"Security features including encryption and access controls",
+"Cost optimization with tiered storage and compression"
+],
+resources: [
+["Pinecone Docs","https://docs.pinecone.io/"],
+["Weaviate","https://weaviate.io/"],
+["Qdrant","https://qdrant.tech/"],
+["Chroma","https://www.trychroma.com/"],
+["Milvus","https://milvus.io/"],
+["Redis Vector Search","https://redis.io/docs/stack/search/reference/vectors/"]
+]
+},
+
+"RAG Architectures": {
+description: "Combines retrieval systems with LLMs to improve accuracy. Retrieval-Augmented Generation architectures enhance large language models by providing relevant context from external knowledge sources, reducing hallucinations and improving response quality through evidence-based generation.",
+details: [
+"Vector search integration with semantic similarity matching",
+"Context injection strategies for optimal prompt construction",
+"Hybrid search combining keyword and semantic retrieval",
+"Grounded generation with citation and source attribution",
+"Knowledge base management and update strategies",
+"Query rewriting and expansion techniques",
+"Re-ranking algorithms for result quality improvement",
+"Chunking strategies for optimal context window utilization",
+"Multi-modal RAG supporting text, images, and structured data",
+"Real-time indexing and incremental knowledge updates",
+"Query routing and fallback mechanisms",
+"Performance optimization for low-latency RAG systems"
+],
+resources: [
+["LangChain","https://www.langchain.com/"],
+["LlamaIndex","https://www.llamaindex.ai/"],
+["Haystack","https://haystack.deepset.ai/"],
+["RAGStack","https://www.redhat.com/en/technologies/cloud-computing/ragstack"],
+["Vespa.ai","https://vespa.ai/"],
+["Google RAG Documentation","https://cloud.google.com/vertex-ai/generative-ai/docs/generative-ai/learn/rag"]
+]
+},
+
+"Agent Architectures": {
+description: "Design patterns for autonomous AI systems with planning and tool use. Agent architectures enable AI systems to perform complex tasks by breaking them down into subtasks, using tools, maintaining context through memory systems, and coordinating multiple specialized agents to achieve sophisticated goals.",
+details: [
+"Memory systems including short-term, long-term, and vector-based memory",
+"Tool calling with function execution and API integration capabilities",
+"Multi-agent orchestration with role-based specialization and coordination",
+"Task decomposition and hierarchical planning strategies",
+"Context management and state preservation across interactions",
+"Self-reflection and improvement mechanisms",
+"Communication protocols between agents",
+"Error handling and recovery strategies",
+"Resource management and optimization",
+"Security and sandboxing for tool execution",
+"Learning from experience and adaptation",
+"Human feedback integration and preference learning"
+],
+resources: [
+["AutoGen","https://github.com/microsoft/autogen"],
+["CrewAI","https://www.crewai.com/"],
+["LangChain Agents","https://python.langchain.com/docs/modules/agents/"],
+["Microsoft Semantic Kernel","https://learn.microsoft.com/en-us/semantic-kernel/"],
+["Google Agent Builder","https://cloud.google.com/agent-builder"],
+["Anthropic Claude Code","https://docs.anthropic.com/en/docs/claude-code"]
+]
+},
+
+"Interview Questions": {
+description: "Comprehensive collection of complex AI architecture interview questions and detailed answers covering all major topics in enterprise AI implementation. This section provides in-depth technical questions and model answers for senior AI architect positions.",
+details: [
+"AI Strategy and Business Alignment",
+"Technical Architecture and Design Patterns",
+"Model Selection and Evaluation",
+"Security and Compliance",
+"Performance Optimization and Scaling",
+"Ethical Considerations and Governance",
+"System Design and Scalability",
+"Data Engineering and MLOps",
+"LLM and Generative AI Architecture",
+"Real-world Problem Solving Scenarios"
+],
+resources: [
+["AI Architecture Interview Guide","https://github.com/alexeygrigorev/data-science-interviews"],
+["ML System Design Questions","https://github.com/chiphuyen/ml-interviews-book"],
+["AI Ethics Interview Prep","https://www.deeplearning.ai/ai-ethics/"],
+["MLOps Interview Questions","https://www.mlops.community/mlops-interview-questions/"],
+["System Design Primer","https://github.com/donnemartin/system-design-primer"],
+["AI Architecture Patterns","https://docs.microsoft.com/en-us/azure/architecture/ai-ml/"]
+]
+}
+
+};
+
+const tabsContainer = document.getElementById("tabs");
+const contentContainer = document.getElementById("content");
+
+function renderContent(topic) {
+    const data = topics[topic];
+
+    let content = `
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-number">${data.details.length}</div>
+                <div class="stat-label">Components</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">${data.resources.length}</div>
+                <div class="stat-label">Resources</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">13</div>
+                <div class="stat-label">Total Topics</div>
+            </div>
+        </div>
+
+        <h1>${topic}</h1>
+
+        <div class="section">
+            <h3>Overview</h3>
+            <p>${data.description}</p>
+        </div>
+
+        <div class="section">
+            <h3>Key Components</h3>
+    `;
+
+    // Add detailed explanations for each component
+    data.details.forEach((component, index) => {
+        content += `
+            <div class="section">
+                <h4>${component}</h4>
+        `;
+        
+        // Add detailed explanations for each topic
+        if (topic === "AI Strategy") {
+            const explanations = [
+                "Prioritization frameworks help identify high-impact use cases based on business value, feasibility, and strategic alignment. Common frameworks include ICE scoring (Impact, Confidence, Ease) and WSJF (Weighted Shortest Job First).",
+                "Phased implementation allows for iterative learning and risk mitigation. Typical phases include pilot projects, departmental rollouts, and enterprise-wide deployment with clear milestones and success criteria.",
+                "Operating models define governance, roles, and processes. Center of Excellence (CoE) provides centralized expertise while federated models distribute capabilities across business units with shared standards.",
+                "ROI measurement requires both quantitative metrics (cost savings, revenue growth) and qualitative benefits (customer satisfaction, employee productivity). Establish baseline measurements and track incremental improvements.",
+                "Organizational readiness involves assessing current capabilities, identifying skill gaps, and developing change management strategies to ensure smooth adoption across all levels of the organization.",
+                "Technology stack selection requires evaluating compatibility with existing systems, scalability requirements, vendor lock-in risks, and total cost of ownership including licensing, infrastructure, and maintenance.",
+                "Risk assessment covers data privacy, model bias, regulatory compliance, and operational risks. Implement risk mitigation strategies and establish clear accountability frameworks.",
+                "Talent acquisition strategy should address both hiring external experts and upskilling existing staff. Consider partnerships with educational institutions and certification programs."
+            ];
+            content += `<p>${explanations[index]}</p>`;
+        }
+        else if (topic === "AI Capability Map") {
+            const explanations = [
+                "Domain-specific models are tailored for particular industries or functions. For example, medical imaging models for healthcare, fraud detection models for finance, or predictive maintenance models for manufacturing.",
+                "Generative AI capabilities include text generation (GPT models), image generation (DALL-E, Stable Diffusion), code generation (GitHub Copilot), and multimodal generation combining multiple data types.",
+                "Decision intelligence combines ML predictions with optimization algorithms and business rules to make automated decisions. This includes recommendation systems, dynamic pricing, and resource allocation.",
+                "Maturity assessment frameworks like the AI Maturity Model help organizations evaluate their current capabilities across dimensions like data, technology, people, and processes.",
+                "Cross-functional integration ensures AI capabilities work seamlessly across different departments. This requires standardized APIs, data sharing protocols, and collaborative workflows.",
+                "ML engineering capabilities include automated model training, deployment pipelines, monitoring systems, and version control for models and data.",
+                "Business process automation uses AI to streamline workflows, reduce manual effort, and improve efficiency. Examples include document processing, customer service chatbots, and supply chain optimization.",
+                "Real-time AI workloads require streaming data processing, low-latency inference, and continuous model updates. Technologies like Apache Kafka, Apache Flink, and edge computing enable real-time capabilities.",
+                "Edge AI brings computation closer to data sources, reducing latency and bandwidth requirements. This is crucial for IoT devices, autonomous vehicles, and remote monitoring systems.",
+                "Personalization uses AI to tailor experiences to individual users. This includes personalized recommendations, dynamic content, and adaptive user interfaces based on user behavior and preferences."
+            ];
+            content += `<p>${explanations[index]}</p>`;
+        }
+        else if (topic === "AI Reference Architecture") {
+            const explanations = [
+                "Real-time data ingestion handles streaming data from various sources using technologies like Apache Kafka, Apache Pulsar, or cloud-based streaming services. Batch processing handles large volumes of historical data.",
+                "Automated hyperparameter tuning uses techniques like grid search, random search, or Bayesian optimization to find optimal model parameters. Tools include Optuna, Hyperopt, and cloud-based AutoML services.",
+                "Online serving provides real-time inference with low latency requirements, while offline serving handles batch predictions for scenarios where real-time response isn't critical.",
+                "Comprehensive observability includes monitoring model performance, data quality, system health, and business metrics. This requires logging, metrics collection, and alerting systems.",
+                "Data lake and warehouse integration enables seamless data flow between storage systems. Data lakes store raw data in its native format, while data warehouses provide structured, queryable data.",
+                "Feature engineering transforms raw data into meaningful features for ML models. Feature stores centralize feature computation, storage, and serving to ensure consistency across training and inference.",
+                "Model versioning tracks different iterations of models, while lineage tracking documents the complete history of model development, training data, and deployment changes.",
+                "Security enforcement includes data encryption, access controls, model security, and compliance monitoring. This ensures data privacy and regulatory compliance.",
+                "Resource management involves efficient allocation of compute resources (CPU, GPU, TPU) across different workloads. Auto-scaling and resource scheduling optimize cost and performance.",
+                "API gateways provide a single entry point for accessing AI services, handling authentication, rate limiting, and request routing. Service meshes manage service-to-service communication.",
+                "Event-driven architecture enables reactive systems that respond to data changes and business events. This supports real-time processing and decoupled system components.",
+                "Multi-cloud strategies distribute workloads across different cloud providers to avoid vendor lock-in, optimize costs, and ensure high availability and disaster recovery."
+            ];
+            content += `<p>${explanations[index]}</p>`;
+        }
+        else if (topic === "AI Platform Architecture") {
+            const explanations = [
+                "Auto-scaling dynamically adjusts compute resources based on workload demands. GPU/TPU scheduling optimizes expensive hardware usage across multiple training jobs and inference requests.",
+                "Feature stores provide centralized feature management, ensuring consistent feature computation and serving across training and inference. They support feature versioning and lineage tracking.",
+                "Model registries serve as centralized repositories for model artifacts, metadata, and versioning. They enable model discovery, comparison, and deployment automation.",
+                "CI/CD pipelines automate the build, test, and deployment process for ML models. This includes automated testing, model validation, and deployment to different environments.",
+                "Workflow management orchestrates complex ML pipelines with dependencies, scheduling, and monitoring. Tools like Apache Airflow, Prefect, and Kubeflow Pipelines enable workflow automation.",
+                "Experiment tracking captures and compares model training runs, hyperparameters, and results. This enables reproducible experiments and informed model selection.",
+                "Observability for ML systems includes model performance monitoring, data drift detection, and system health metrics. This ensures models maintain accuracy and reliability in production.",
+                "Access control implements role-based permissions and authentication for ML assets. This ensures only authorized users can access, modify, or deploy models and data.",
+                "Cost optimization involves monitoring resource usage, implementing auto-scaling, using spot instances, and optimizing model inference to reduce operational expenses.",
+                "Multi-tenant architecture isolates resources and data between different teams or projects while sharing underlying infrastructure. This enables secure collaboration and resource sharing.",
+                "Integration with existing systems ensures compatibility with current enterprise applications, databases, and workflows. This includes APIs, data connectors, and authentication systems.",
+                "Developer experience includes SDKs, APIs, documentation, and tooling that make it easy for developers to build, train, and deploy ML models efficiently."
+            ];
+            content += `<p>${explanations[index]}</p>`;
+        }
+        else if (topic === "LLM Model Catalog") {
+            const explanations = [
+                "Context length determines how much text a model can process at once, affecting its ability to understand long documents or maintain conversation context. Token limits impact cost and performance.",
+                "Data privacy requirements include ensuring sensitive data isn't used for training, implementing data anonymization, and complying with regulations like GDPR and HIPAA.",
+                "Pricing models vary by provider and usage patterns. Some charge per token, others per API call or compute time. Understanding cost structures helps optimize budget allocation.",
+                "Use case mapping aligns model capabilities with specific business problems. For example, customer service chatbots, document summarization, or code generation require different model characteristics.",
+                "Performance benchmarks measure model accuracy, speed, and quality across different tasks. Standard benchmarks like GLUE, SuperGLUE, and HELM help compare model capabilities.",
+                "Fine-tuning adapts pre-trained models to specific domains or tasks using smaller datasets. This improves performance on specialized tasks while reducing training costs and time.",
+                "Integration patterns define how models connect with existing systems. This includes API design, data format compatibility, authentication methods, and deployment strategies.",
+                "Vendor lock-in analysis evaluates the difficulty of switching between different LLM providers. This considers data portability, API compatibility, and model export capabilities.",
+                "Version management tracks model updates, improvements, and bug fixes. This ensures consistent performance and enables rollback if issues arise with new versions.",
+                "Multi-modal capabilities allow models to process and generate multiple types of data (text, images, audio). This enables richer applications like image captioning or video analysis.",
+                "Domain-specific models are trained on specialized datasets for particular industries. Healthcare models understand medical terminology, while legal models comprehend legal documents.",
+                "Open source models provide transparency and customization options but require more infrastructure and expertise. Proprietary models offer ease of use but may have limitations in customization."
+            ];
+            content += `<p>${explanations[index]}</p>`;
+        }
+        else if (topic === "MLOps & LLMOps") {
+            const explanations = [
+                "Reproducible workflows ensure consistent results across different environments and team members. This includes version control for code, data, and model artifacts.",
+                "Prompt versioning tracks changes to prompts used with LLMs, enabling comparison of performance across different prompt iterations and rollback if needed.",
+                "Quality gates enforce standards before models are deployed. This includes performance thresholds, bias checks, security scans, and compliance validation.",
+                "Budgeting and optimization strategies track costs across compute, storage, and API usage. This enables cost-effective model deployment and usage monitoring.",
+                "Automated retraining maintains model accuracy as data distributions change over time. This requires monitoring performance metrics and triggering retraining when thresholds are breached.",
+                "Canary deployment gradually rolls out model changes to a small subset of users before full deployment, reducing risk and enabling quick rollback if issues occur.",
+                "Infrastructure as Code (IaC) manages infrastructure through code rather than manual processes. This enables consistent, reproducible, and version-controlled infrastructure deployment.",
+                "Data versioning tracks changes to training datasets, enabling reproducible experiments and understanding of how data changes affect model performance.",
+                "Vulnerability management includes scanning for security issues in model code, dependencies, and deployment configurations. This ensures secure model deployment.",
+                "Performance monitoring tracks model latency, throughput, and accuracy in production. This enables quick detection of performance degradation and optimization opportunities.",
+                "Environment management ensures consistency across development, staging, and production environments. This reduces deployment issues and enables reliable testing.",
+                "Collaboration tools facilitate communication and coordination between data scientists, ML engineers, and other stakeholders. This includes shared workspaces, documentation, and communication platforms."
+            ];
+            content += `<p>${explanations[index]}</p>`;
+        }
+        else if (topic === "AI Governance Framework") {
+            const explanations = [
+                "Multi-stage review processes include technical validation, business approval, and compliance review. This ensures models meet quality standards and regulatory requirements.",
+                "Risk scoring systems categorize models based on potential impact, complexity, and regulatory requirements. This enables appropriate oversight and resource allocation.",
+                "Complete lineage tracking documents the entire model lifecycle from data collection to deployment. This enables audit trails and understanding of model decision-making.",
+                "Cross-functional representation ensures diverse perspectives in governance decisions. This includes technical experts, business stakeholders, legal, and compliance teams.",
+                "Regulatory reporting tracks compliance with industry-specific regulations and standards. This includes documentation, audits, and regular compliance assessments.",
+                "Quality standards define acceptable data quality levels and validation procedures. Lineage tracking documents data transformations and sources throughout the pipeline.",
+                "SLA management defines performance expectations and monitoring for AI systems. This includes uptime requirements, response times, and accuracy thresholds.",
+                "Change management processes ensure controlled updates to models and systems. This includes approval workflows, testing procedures, and rollback plans.",
+                "Stakeholder communication strategies keep all relevant parties informed about AI initiatives. This includes regular updates, training, and feedback mechanisms.",
+                "Third-party assessment evaluates external vendors and partners for security, compliance, and quality standards. This ensures third-party components meet organizational requirements.",
+                "Licensing compliance ensures proper use of software, data, and model licenses. This includes tracking license terms, usage limits, and renewal requirements.",
+                "Business continuity planning ensures AI systems remain operational during disruptions. This includes backup systems, disaster recovery procedures, and alternative workflows."
+            ];
+            content += `<p>${explanations[index]}</p>`;
+        }
+        else if (topic === "Responsible AI") {
+            const explanations = [
+                "Statistical analysis identifies bias through metrics like disparate impact, equal opportunity difference, and demographic parity. Fairness metrics quantify bias across different demographic groups.",
+                "Feature importance analysis helps understand which features contribute most to model predictions. Decision trees and rule-based models provide inherent interpretability.",
+                "Human-in-the-loop systems involve human oversight for critical decisions, model validation, and exception handling. This ensures human judgment complements AI capabilities.",
+                "Organizational standards align AI development with company values and ethics. Regulatory standards ensure compliance with laws like GDPR, CCPA, and industry-specific regulations.",
+                "Privacy preservation techniques include data anonymization, differential privacy, and federated learning. These protect sensitive information while enabling model training.",
+                "Clear responsibility assignment defines who is accountable for AI system decisions and outcomes. This includes model developers, deployers, and business owners.",
+                "Model documentation includes training data descriptions, performance metrics, limitations, and intended use cases. This enables transparency and informed decision-making.",
+                "Impact assessment evaluates potential positive and negative effects on stakeholders. Feedback mechanisms collect user experiences and concerns for continuous improvement.",
+                "Fairness degradation monitoring tracks changes in model fairness over time. Drift detection identifies when model performance changes due to data distribution shifts.",
+                "Governance structures establish committees and processes for ethical AI oversight. This includes regular reviews, policy updates, and escalation procedures.",
+                "Data usage transparency informs users about how their data is used and provides control options. This builds trust and ensures compliance with privacy regulations.",
+                "Third-party validation involves independent audits and assessments of AI systems. This provides objective evaluation of fairness, security, and compliance."
+            ];
+            content += `<p>${explanations[index]}</p>`;
+        }
+        else if (topic === "AI Security") {
+            const explanations = [
+                "Input validation prevents malicious prompts from exploiting model vulnerabilities. Output filtering ensures generated content doesn't contain harmful or sensitive information.",
+                "Robust training techniques include adversarial training, data augmentation, and ensemble methods. Detection systems identify and mitigate adversarial attacks in real-time.",
+                "Authentication verifies user identity, authorization controls access permissions, and rate limiting prevents abuse. These protect AI APIs from unauthorized access and DoS attacks.",
+                "Role-based permissions ensure users only access resources necessary for their roles. Least privilege principles minimize attack surface and potential damage from compromised accounts.",
+                "Model watermarking embeds identifiers in model outputs to track usage and prevent unauthorized copying. Intellectual property protection includes patents, copyrights, and trade secrets.",
+                "Encryption protects data both when stored and when transmitted over networks. This includes encrypting training data, model parameters, and inference requests/responses.",
+                "Container security involves securing Docker images, runtime environments, and orchestration platforms. Runtime protection monitors for suspicious activities and potential breaches.",
+                "Supply chain security assesses risks from third-party libraries, frameworks, and dependencies. This includes vulnerability scanning and dependency management.",
+                "Threat detection systems monitor for unusual patterns, attacks, and security breaches. This includes anomaly detection, intrusion detection, and security information and event management (SIEM).",
+                "Vulnerability scanning identifies security weaknesses in code, configurations, and dependencies. Penetration testing simulates real attacks to identify and fix security gaps.",
+                "Secure development practices include code reviews, security testing, and secure coding standards. This reduces vulnerabilities introduced during development.",
+                "Regulatory compliance ensures adherence to security standards like ISO 27001, SOC 2, and industry-specific requirements. This includes regular audits and security assessments."
+            ];
+            content += `<p>${explanations[index]}</p>`;
+        }
+        else if (topic === "Vector Databases") {
+            const explanations = [
+                "Distance metrics measure similarity between vectors. Cosine similarity measures angle similarity, Euclidean distance measures straight-line distance, and dot product measures projection similarity.",
+                "HNSW (Hierarchical Navigable Small World) enables fast approximate nearest neighbor search. IVF (Inverted File) partitions data for efficient search. Product quantization compresses vectors for storage efficiency.",
+                "Hybrid search combines vector similarity with traditional filters like metadata, tags, or structured queries. This enables more precise and relevant search results.",
+                "Horizontal scaling distributes data and queries across multiple nodes. Distributed architectures handle large datasets and high query volumes through partitioning and replication.",
+                "Real-time ingestion processes streaming data and updates vector indexes immediately. Upsert capabilities allow updating existing vectors without rebuilding the entire index.",
+                "Multi-tenancy isolates data and resources between different users or organizations. Resource management allocates compute and storage fairly across tenants.",
+                "Query optimization techniques include caching frequently accessed vectors and optimizing search algorithms. Caching reduces latency for common queries.",
+                "Integration with ML frameworks enables seamless embedding generation and storage. Embedding pipelines automate the process of converting data to vectors and storing them.",
+                "Backup strategies include regular snapshots and incremental backups. Disaster recovery plans ensure data can be restored quickly in case of failures.",
+                "Vector operation monitoring tracks query performance, index health, and resource usage. Observability tools provide insights into system performance and bottlenecks.",
+                "Encryption protects vector data at rest and in transit. Access controls restrict who can read, write, or modify vector data and indexes.",
+                "Tiered storage moves less frequently accessed vectors to cheaper storage tiers. Compression reduces storage requirements while maintaining search performance."
+            ];
+            content += `<p>${explanations[index]}</p>`;
+        }
+        else if (topic === "RAG Architectures") {
+            const explanations = [
+                "Semantic similarity matching finds relevant documents based on meaning rather than exact keywords. This uses vector embeddings to capture semantic relationships between text.",
+                "Prompt construction strategies optimize how retrieved context is combined with user queries. This includes prompt templates, context ordering, and token limit management.",
+                "Keyword retrieval provides exact matches for specific terms and phrases. Semantic retrieval captures conceptual relationships and synonyms, complementing keyword search.",
+                "Citation attribution provides references to source documents in generated responses. Source attribution enables users to verify information and explore original content.",
+                "Knowledge base management includes document ingestion, indexing, and update processes. Update strategies ensure knowledge bases remain current and relevant.",
+                "Query rewriting improves search effectiveness by expanding or refining user queries. Expansion techniques include synonym addition, query decomposition, and intent clarification.",
+                "Re-ranking algorithms reorder search results based on relevance to the specific query. This improves result quality by considering query context and document importance.",
+                "Chunking strategies determine how documents are split for embedding and retrieval. Optimal chunking balances context preservation with token limit constraints.",
+                "Multi-modal RAG processes and retrieves information from multiple data types. This enables richer responses that combine text, visual content, and structured data.",
+                "Incremental indexing updates vector embeddings as new information becomes available. Real-time indexing ensures knowledge bases reflect the latest information.",
+                "Query routing directs different types of queries to appropriate retrieval systems. Fallback mechanisms provide alternative responses when primary retrieval fails.",
+                "Performance optimization includes caching strategies, parallel processing, and efficient indexing. Low-latency systems prioritize response time while maintaining quality."
+            ];
+            content += `<p>${explanations[index]}</p>`;
+        }
+        else if (topic === "Agent Architectures") {
+            const explanations = [
+                "Short-term memory handles immediate context and recent interactions. Long-term memory stores persistent knowledge and learned patterns. Vector-based memory enables semantic retrieval of past experiences.",
+                "Function execution allows agents to perform specific tasks through predefined functions. API integration enables agents to interact with external systems and services.",
+                "Role-based specialization assigns different capabilities to different agents. Coordination mechanisms enable agents to work together effectively on complex tasks.",
+                "Hierarchical planning breaks complex tasks into manageable subtasks. Task decomposition strategies determine optimal ways to divide and conquer complex problems.",
+                "State preservation maintains context across multiple interactions and sessions. Context management ensures agents understand the current situation and user intent.",
+                "Self-reflection enables agents to evaluate their performance and identify areas for improvement. Improvement mechanisms incorporate feedback and learning from experience.",
+                "Communication protocols define how agents exchange information and coordinate actions. Message passing systems enable reliable and efficient agent communication.",
+                "Error handling strategies detect, diagnose, and recover from failures. Recovery mechanisms ensure agents can continue operating despite errors or unexpected situations.",
+                "Resource management optimizes the use of computational and memory resources. Optimization techniques balance performance with resource constraints.",
+                "Sandboxing isolates agent tool execution to prevent security risks. Security measures include permission controls, input validation, and execution monitoring.",
+                "Experience-based learning adapts agent behavior based on past interactions. Adaptation mechanisms enable agents to improve performance over time.",
+                "Preference learning incorporates user feedback to align agent behavior with user expectations. Human feedback integration enables continuous improvement and personalization."
+            ];
+            content += `<p>${explanations[index]}</p>`;
+        }
+        else if (topic === "Agent Architectures") {
+            const explanations = [
+                "Short-term memory handles immediate context and recent interactions. Long-term memory stores persistent knowledge and learned patterns. Vector-based memory enables semantic retrieval of past experiences.",
+                "Function execution allows agents to perform specific tasks through predefined functions. API integration enables agents to interact with external systems and services.",
+                "Role-based specialization assigns different capabilities to different agents. Coordination mechanisms enable agents to work together effectively on complex tasks.",
+                "Hierarchical planning breaks complex tasks into manageable subtasks. Task decomposition strategies determine optimal ways to divide and conquer complex problems.",
+                "State preservation maintains context across multiple interactions and sessions. Context management ensures agents understand the current situation and user intent.",
+                "Self-reflection enables agents to evaluate their performance and identify areas for improvement. Improvement mechanisms incorporate feedback and learning from experience.",
+                "Communication protocols define how agents exchange information and coordinate actions. Message passing systems enable reliable and efficient agent communication.",
+                "Error handling strategies detect, diagnose, and recover from failures. Recovery mechanisms ensure agents can continue operating despite errors or unexpected situations.",
+                "Resource management optimizes the use of computational and memory resources. Optimization techniques balance performance with resource constraints.",
+                "Sandboxing isolates agent tool execution to prevent security risks. Security measures include permission controls, input validation, and execution monitoring.",
+                "Experience-based learning adapts agent behavior based on past interactions. Adaptation mechanisms enable agents to improve performance over time.",
+                "Preference learning incorporates user feedback to align agent behavior with user expectations. Human feedback integration enables continuous improvement and personalization."
+            ];
+            content += `<p>${explanations[index]}</p>`;
+        }
+        else if (topic === "Interview Questions") {
+            const explanations = [
+                "Business alignment ensures AI initiatives support organizational goals and deliver measurable value. Strategy development involves identifying opportunities, prioritizing initiatives, and defining success metrics.",
+                "Design patterns provide proven solutions to common architectural challenges. Technical architecture covers system design, component interaction, and technology selection for AI systems.",
+                "Evaluation metrics assess model performance, accuracy, and business impact. Model selection involves choosing appropriate algorithms, architectures, and validation approaches.",
+                "Security considerations include data protection, access control, and threat mitigation. Compliance requirements cover regulatory standards, industry regulations, and organizational policies.",
+                "Scaling strategies handle increasing data volumes, user loads, and computational demands. Performance optimization focuses on efficiency, latency, and resource utilization.",
+                "Ethical frameworks guide responsible AI development and deployment. Governance structures ensure accountability, transparency, and compliance with organizational values."
+            ];
+            content += `<p>${explanations[index]}</p>`;
+        }
+        else {
+            content += `<p>Comprehensive explanation for ${component} implementation and best practices.</p>`;
+        }
+
+        content += `
+            </div>
+        `;
+    });
+
+    content += `
+        </div>
+    `;
+
+    // Add interview questions content for the Interview Questions tab
+    if (topic === "Interview Questions") {
+        content += `
+        <div class="section">
+            <h3>Sample Interview Questions & Answers</h3>
+            
+            <div class="section">
+                <h4>Q: How would you design an AI system for real-time fraud detection in a financial institution?</h4>
+                <p><strong>Answer:</strong> For real-time fraud detection, I would design a multi-layered architecture:</p>
+                <ul>
+                    <li><strong>Data Pipeline:</strong> Stream processing with Apache Kafka for real-time transaction data ingestion</li>
+                    <li><strong>Feature Engineering:</strong> Real-time feature computation including velocity checks, behavioral patterns, and anomaly scores</li>
+                    <li><strong>Model Architecture:</strong> Ensemble approach combining gradient boosting for tabular data and neural networks for sequence patterns</li>
+                    <li><strong>Inference:</strong> Low-latency serving with model caching and batch prediction optimization</li>
+                    <li><strong>Feedback Loop:</strong> Continuous learning with concept drift detection and automated model retraining</li>
+                    <li><strong>Compliance:</strong> Explainable AI components for regulatory requirements and audit trails</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h4>Q: What are the key considerations when choosing between on-premise and cloud AI infrastructure?</h4>
+                <p><strong>Answer:</strong> The decision depends on several factors:</p>
+                <ul>
+                    <li><strong>Data Sensitivity:</strong> Regulatory requirements and data residency constraints</li>
+                    <li><strong>Cost Structure:</strong> CAPEX vs OPEX considerations and total cost of ownership</li>
+                    <li><strong>Scalability Needs:</strong> Predictable workloads vs elastic scaling requirements</li>
+                    <li><strong>Expertise:</strong> In-house ML engineering capabilities vs managed services</li>
+                    <li><strong>Latency Requirements:</strong> Edge computing needs vs centralized processing</li>
+                    <li><strong>Vendor Lock-in:</strong> Flexibility and portability considerations</li>
+                </ul>
+                <p>Hybrid approaches often provide the best balance, with sensitive data processed on-premise and scalable workloads in the cloud.</p>
+            </div>
+
+            <div class="section">
+                <h4>Q: How do you ensure model fairness and prevent bias in AI systems?</h4>
+                <p><strong>Answer:</strong> Bias mitigation requires a comprehensive approach:</p>
+                <ul>
+                    <li><strong>Data Audit:</strong> Analyze training data for representation bias and historical discrimination</li>
+                    <li><strong>Feature Engineering:</strong> Remove or transform sensitive attributes and proxy variables</li>
+                    <li><strong>Algorithmic Fairness:</strong> Use fairness-aware algorithms and regularization techniques</li>
+                    <li><strong>Metric Monitoring:</strong> Track disparate impact, equal opportunity, and demographic parity</li>
+                    <li><strong>Human Oversight:</strong> Implement human-in-the-loop validation for high-stakes decisions</li>
+                    <li><strong>Continuous Monitoring:</strong> Deploy bias detection in production with automated alerts</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h4>Q: Explain the trade-offs between model accuracy and interpretability.</h4>
+                <p><strong>Answer:</strong> The accuracy-interpretability trade-off is context-dependent:</p>
+                <ul>
+                    <li><strong>High-Stakes Decisions:</strong> Healthcare, finance, and legal domains prioritize interpretability for compliance and trust</li>
+                    <li><strong>Scale vs Explainability:</strong> Complex models (deep learning) offer higher accuracy but are harder to interpret</li>
+                    <li><strong>Hybrid Approaches:</strong> Use interpretable models for critical paths and complex models for auxiliary tasks</li>
+                    <li><strong>Post-hoc Methods:</strong> SHAP, LIME, and attention mechanisms can provide explanations for complex models</li>
+                    <li><strong>Business Requirements:</strong> Balance regulatory needs, user trust, and performance requirements</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h4>Q: How would you design a scalable MLOps pipeline for a global e-commerce recommendation system?</h4>
+                <p><strong>Answer:</strong> A global recommendation system requires:</p>
+                <ul>
+                    <li><strong>Multi-Region Deployment:</strong> Edge locations for low-latency inference with regional model variants</li>
+                    <li><strong>Real-time Feature Store:</strong> Unified feature computation across user interactions, product catalogs, and contextual data</li>
+                    <li><strong>Model Serving:</strong> Kubernetes-based serving with autoscaling and A/B testing capabilities</li>
+                    <li><strong>Continuous Training:</strong> Incremental learning with online updates and periodic full retraining</li>
+                    <li><strong>Monitoring:</strong> Real-time metrics for model performance, data drift, and business KPIs</li>
+                    <li><strong>Personalization:</strong> Multi-armed bandit algorithms for exploration vs exploitation balance</li>
+                </ul>
+            </div>
+        </div>
+        `;
+    }
+
+    content += `
+        <div class="section">
+            <h3>Online Resources</h3>
+            <div class="resource-grid">
+                ${data.resources.map(r => `
+                    <div class="resource-card">
+                        <div class="resource-title">${r[0]}</div>
+                        <div class="resource-desc">Official documentation and guides</div>
+                        <a href="${r[1]}" target="_blank" style="font-size: 14px;">Visit Website →</a>
+                    </div>
+                `).join("")}
+            </div>
+        </div>
+
+        <div class="footer">
+            AI Architecture Knowledge Hub • Last Updated: ${new Date().toLocaleDateString()}
+        </div>
+    `;
+
+    contentContainer.innerHTML = content;
+}
+
+Object.keys(topics).forEach((topic, index) => {
+    const tab = document.createElement("div");
+    tab.className = "tab";
+    tab.innerText = topic;
+
+    tab.addEventListener("click", () => {
+        document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+        tab.classList.add("active");
+        renderContent(topic);
+    });
+
+    if (index === 0) {
+        tab.classList.add("active");
+        renderContent(topic);
+    }
+
+    tabsContainer.appendChild(tab);
+});
+</script>
+
+</body>
+</html>
+
